@@ -1,0 +1,9 @@
+image: Visual Studio 2022
+
+build_script:
+  - pip install pandas openpyxl pyinstaller
+  - pyinstaller --onefile --name 長照金額計算程式 --hidden-import openpyxl.cell._writer process.py
+
+artifacts:
+  - path: dist\長照金額計算程式.exe
+    name: 長照金額計算程式
