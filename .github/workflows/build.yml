@@ -1,0 +1,33 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:   # 也可以手動在網頁上點按鈕觸發
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+
+      - name: 安裝 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安裝套件
+        run: |
+          pip install pandas openpyxl pyinstaller
+
+      - name: 打包成 EXE
+        run: |
+          pyinstaller --onefile --name 長照金額計算程式 --hidden-import openpyxl.cell._writer process.py
+
+      - name: 上傳打包結果
+        uses: actions/upload-artifact@v4
+        with:
+          name: 長照金額計算程式_Windows
+          path: dist/長照金額計算程式.exe
