@@ -5,8 +5,8 @@ environment:
 
 build_script:
   - "C:\\Python312-x64\\python.exe -m pip install pandas openpyxl pyinstaller"
-  - "C:\\Python312-x64\\python.exe -m PyInstaller --onefile --name 長照金額計算程式 --hidden-import openpyxl.cell._writer process.py"
+  - "C:\\Python312-x64\\python.exe -m PyInstaller --onefile --name LTC_Calculator --hidden-import openpyxl.cell._writer process.py"
 
 artifacts:
-  - path: dist\長照金額計算程式.exe
-    name: 長照金額計算程式
+  - path: dist\LTC_Calculator.exe
+    name: LTC_Calculator
