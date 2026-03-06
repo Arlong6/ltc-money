@@ -189,7 +189,17 @@ def main():
 
     print(f'讀取：{input_path.name}')
     df_b = pd.read_excel(input_path, sheet_name='中央服務紀錄(B碼)+姓名')
-    df_a = pd.read_excel(input_path, sheet_name='A碼項目清冊')
+
+    # A碼可能有 1~3 行說明文字在最上面，自動偵測真正的標題列
+    df_a_raw = pd.read_excel(input_path, sheet_name='A碼項目清冊', header=None)
+    header_row = next(
+        i for i, row in df_a_raw.iterrows()
+        if row.astype(str).str.contains('服務日期').any()
+    )
+    df_a = pd.read_excel(input_path, sheet_name='A碼項目清冊', header=header_row)
+
+    # 給付價格可能是 '770/925' 格式，取斜線前的數字
+    df_a['給付價格'] = df_a['給付價格'].astype(str).str.split('/').str[0]
 
     print(f'A碼筆數：{len(df_a)}，B碼筆數：{len(df_b)}')
 
