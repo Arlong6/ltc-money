@@ -167,7 +167,11 @@ def find_input_file(folder: Path) -> Path:
 
 
 def main():
-    folder = Path(__file__).parent
+    # PyInstaller 打包後 __file__ 會指向暫存目錄，要改用 sys.executable
+    if getattr(sys, 'frozen', False):
+        folder = Path(sys.executable).parent
+    else:
+        folder = Path(__file__).parent
 
     # 決定輸入檔
     if len(sys.argv) > 1:
